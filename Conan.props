@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" >
+    <ConanOutputPath>$(SolutionDir).vs\Conan\</ConanOutputPath>
+    <ConanCompilerVersion>15</ConanCompilerVersion>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Debug' ">
+      <PropertyGroup Label="UserMacros" >
+        <ConanCompilerRuntime>MDd</ConanCompilerRuntime>
+        <ConanBuildType>Debug</ConanBuildType>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup Label="UserMacros" >
+        <ConanCompilerRuntime>MD</ConanCompilerRuntime>
+        <ConanBuildType>Release</ConanBuildType>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition=" '$(PlatformShortName)'=='armv7-a' ">
+      <PropertyGroup Label="UserMacros" >
+        <ConanArch>armv7hf</ConanArch>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(PlatformShortName)'=='arm64-v8a' ">
+      <PropertyGroup Label="UserMacros" >
+        <ConanArch>armv8</ConanArch>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(PlatformShortName)'=='x86_x64' ">
+      <PropertyGroup Label="UserMacros" >
+        <ConanArch>x86_64</ConanArch>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(PlatformShortName)'=='x86' ">
+      <PropertyGroup Label="UserMacros" >
+        <ConanArch>x86</ConanArch>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup Label="UserMacros" >
+        <ConanArch>x86_64</ConanArch>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  
+  <ImportGroup Label="PropertySheets">
+    <Import Condition="Exists('$(ConanOutputPath)conanbuildinfo.props')" Project="$(ConanOutputPath)conanbuildinfo.props" />
+  </ImportGroup>
+
+  <ItemGroup>
+    <CustomBuild Include="$(SolutionDir)conanfile.txt">
+      <Command>
+        if not exist $(ConanOutputPath) mkdir $(ConanOutputPath)
+        cd $(ConanOutputPath)
+        conan install --file %(FullPath) %(RootDir)%(Directory) -s os=Windows -s arch=$(ConanArch) -s compiler="Visual Studio" -s compiler.runtime=$(ConanCompilerRuntime) -s compiler.version=$(ConanCompilerVersion) -s build_type=$(ConanBuildType)
+        python advancedvisualstudiogenerator.py
+      </Command>
+      <Outputs>$(ConanOutputPath)conanbuildinfo.props;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  
+</Project>

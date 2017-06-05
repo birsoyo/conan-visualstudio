@@ -1,0 +1,5 @@
+**/__pycache__/
+example/.vs/
+example/project1/x64/
+example/project2/x64/
+test_package/build/
