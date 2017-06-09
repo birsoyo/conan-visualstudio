@@ -4,20 +4,15 @@ from conans import ConanFile
 class AdvancedVisualStudio(Generator):
     @property
     def filename(self):
-        return "advancedvisualstudiogenerator.py"
+        pass
 
     @property
     def content(self):
-        props_file_content = self._gen_props().replace("\\", "\\\\")
-        xml_file_content = self._gen_xml()
-        return f'''
-prop_file = """{props_file_content}"""
-xml_file = """{xml_file_content}"""
-with open('conanbuildinfo.props', 'w') as f:
-    f.write(prop_file)
-with open('conanbuildinfo.xml', 'w') as f:
-    f.write(xml_file)
-'''
+        result = { # filename: content map
+            'conanbuildinfo.props': self._gen_props().replace("\\", "\\\\"),
+            'conanbuildinfo.xml': self._gen_xml()
+        } 
+        return result
 
     def _gen_xml(self):
         template = '''<?xml version="1.0" encoding="utf-8"?>

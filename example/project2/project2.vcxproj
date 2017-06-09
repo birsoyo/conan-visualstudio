@@ -47,9 +47,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <USES_BZIP2_BINARIES>false</USES_BZIP2_BINARIES>
+    <USES_BZIP2_COMPILE>false</USES_BZIP2_COMPILE>
+    <USES_BZIP2_LINK>false</USES_BZIP2_LINK>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <USES_BZIP2_BINARIES>false</USES_BZIP2_BINARIES>
+    <USES_BZIP2_COMPILE>false</USES_BZIP2_COMPILE>
+    <USES_BZIP2_LINK>false</USES_BZIP2_LINK>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

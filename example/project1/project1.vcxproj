@@ -47,9 +47,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <USES_ZLIB_BINARIES>false</USES_ZLIB_BINARIES>
+    <USES_ZLIB_COMPILE>false</USES_ZLIB_COMPILE>
+    <USES_ZLIB_LINK>false</USES_ZLIB_LINK>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <USES_ZLIB_BINARIES>false</USES_ZLIB_BINARIES>
+    <USES_ZLIB_COMPILE>false</USES_ZLIB_COMPILE>
+    <USES_ZLIB_LINK>false</USES_ZLIB_LINK>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

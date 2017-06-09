@@ -50,18 +50,17 @@
   </Choose>
   
   <ImportGroup Label="PropertySheets">
-    <Import Condition="Exists('$(ConanOutputPath)conanbuildinfo.props')" Project="$(ConanOutputPath)conanbuildinfo.props" />
+    <Import Condition="Exists('$(ConanOutputPath)$(ConanBuildType)\conanbuildinfo.props')" Project="$(ConanOutputPath)$(ConanBuildType)\conanbuildinfo.props" />
   </ImportGroup>
 
   <ItemGroup>
     <CustomBuild Include="$(SolutionDir)conanfile.txt">
       <Command>
-        if not exist $(ConanOutputPath) mkdir $(ConanOutputPath)
-        cd $(ConanOutputPath)
+        if not exist $(ConanOutputPath)$(ConanBuildType) mkdir $(ConanOutputPath)$(ConanBuildType)
+        cd $(ConanOutputPath)$(ConanBuildType)
         conan install --file %(FullPath) %(RootDir)%(Directory) -s os=Windows -s arch=$(ConanArch) -s compiler="Visual Studio" -s compiler.runtime=$(ConanCompilerRuntime) -s compiler.version=$(ConanCompilerVersion) -s build_type=$(ConanBuildType)
-        python advancedvisualstudiogenerator.py
       </Command>
-      <Outputs>$(ConanOutputPath)conanbuildinfo.props;%(Outputs)</Outputs>
+      <Outputs>$(ConanOutputPath)$(ConanBuildType)\conanbuildinfo.props;$(ConanOutputPath)$(ConanBuildType)\conanbuildinfo.xml;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   

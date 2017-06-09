@@ -6,7 +6,7 @@ username = os.getenv('CONAN_USERNAME', 'orhun')
 
 class AdvancedVisualStudioGeneratorTestConan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
-    requires = f'AdvancedVisualStudioGenerator/0.0.1@{username}/{channel}'
+    requires = 'AdvancedVisualStudioGenerator/0.0.1@{}/{}'.format(username, channel)
     generators = 'AdvancedVisualStudio'
 
     def build(self):
