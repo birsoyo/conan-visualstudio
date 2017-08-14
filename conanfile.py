@@ -103,9 +103,9 @@ class AdvancedVisualStudio(Generator):
 
     def _format_uses_items(self):
         uses_item_template = '''
-    <USES_{name}_BINARIES>true</USES_{name}_BINARIES>
-    <USES_{name}_COMPILE>true</USES_{name}_COMPILE>
-    <USES_{name}_LINK>true</USES_{name}_LINK>
+    <USES_{name}_BINARIES>false</USES_{name}_BINARIES>
+    <USES_{name}_COMPILE>false</USES_{name}_COMPILE>
+    <USES_{name}_LINK>false</USES_{name}_LINK>
 '''
         sections = []
         for name, cpp_info in self.deps_build_info.dependencies:
