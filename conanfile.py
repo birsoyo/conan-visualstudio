@@ -10,9 +10,17 @@ class AdvancedVisualStudio(Generator):
     def content(self):
         result = { # filename: content map
             'conanbuildinfo.props': self._gen_props().replace("\\", "\\\\"),
-            'conanbuildinfo.xml': self._gen_xml()
-        } 
+            'conanbuildinfo.xml': self._gen_xml(),
+            'conanbuildinfo.bat': self._gen_bat()
+        }
         return result
+
+    def _gen_bat(self):
+        template = '''{rootdir_items}'''
+        fields = {
+            'rootdir_items': self._format_rootdir_items_bat(),
+        }
+        return template.format(**fields)
 
     def _gen_xml(self):
         template = '''<?xml version="1.0" encoding="utf-8"?>
@@ -66,7 +74,7 @@ class AdvancedVisualStudio(Generator):
         for name, cpp_info in self.deps_build_info.dependencies:
             if name == 'AdvancedVisualStudioGenerator':
                 continue
-            fields = { 
+            fields = {
                 'name': name.upper().replace('.', '-'),
                 'display_name': name
             }
@@ -95,7 +103,7 @@ class AdvancedVisualStudio(Generator):
 
         fields = {
             'uses_items': self._format_uses_items(),
-            'rootdir_items': self._format_rootdir_items(),
+            'rootdir_items': self._format_rootdir_items_props(),
             'conditional_property_items': self._format_conditional_properties_items()
         }
         return template.format(**fields)
@@ -118,7 +126,7 @@ class AdvancedVisualStudio(Generator):
             sections.append(section)
         return "".join(sections)
 
-    def _format_rootdir_items(self):
+    def _format_rootdir_items_props(self):
         rootdir_item_template = '''
     <Conan-{name}-Root>{rootdir}</Conan-{name}-Root>'''
         sections = []
@@ -127,6 +135,21 @@ class AdvancedVisualStudio(Generator):
                 continue
             fields = { 
                 'rootdir': cpp_info.rootpath,
+                'name': name.replace('.', '-')
+            }
+            section = rootdir_item_template.format(**fields)
+            sections.append(section)
+        return "".join(sections)
+
+    def _format_rootdir_items_bat(self):
+        rootdir_item_template = '''
+    set Conan-{name}-Root={rootdir}'''
+        sections = []
+        for name, cpp_info in self.deps_build_info.dependencies:
+            if name == 'AdvancedVisualStudioGenerator':
+                continue
+            fields = { 
+                'rootdir': cpp_info.rootpath.replace('/', '\\'),
                 'name': name.replace('.', '-')
             }
             section = rootdir_item_template.format(**fields)
