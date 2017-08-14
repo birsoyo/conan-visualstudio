@@ -194,7 +194,7 @@ class AdvancedVisualStudioGeneratorPackage(ConanFile):
     name = 'AdvancedVisualStudioGenerator'
     version = '0.0.1'
     url = 'http://example.com'
-    license = 'Public Domain'
+    license = 'MIT'
     description = 'Advanced Visual Studio Generator'
     settings = []
     generator = []
